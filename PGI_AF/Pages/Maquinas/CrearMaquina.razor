@@ -1,0 +1,27 @@
+﻿@page "/maquinas/create/{CasoId:int?}"
+@using BackEnd_PGI.Model
+@inherits CrearMaquinaComponent
+
+<div class="content-data mt-4" style="padding: 50px;">
+    <h3>Crear Nueva Maquina</h3>
+
+    <EditForm Model="@Maquina" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre</label>
+            <InputText id="Nombre" class="form-control" @bind-Value="Maquina.Nombre" />
+            <ValidationMessage For="@(() => Maquina.Nombre)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Descripcion" class="form-label">Descripción</label>
+            <InputText id="Descripcion" class="form-control" @bind-Value="Maquina.Descripcion" />
+            <ValidationMessage For="@(() => Maquina.Descripcion)" class="text-danger" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a class="btn btn-secondary" @onclick="Cancel">Cancelar</a>
+    </EditForm>
+</div>

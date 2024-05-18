@@ -1,0 +1,63 @@
+﻿@page "/tipoAssets"
+@inherits TipoAssetsListComponent
+
+<div class="content-data mt-4">
+    <h3>Tipo de Assets (Artefactos)</h3>
+
+    @if (tipoAsset == null || !tipoAsset.Any())
+    {
+        <PlaceholderContainer Animation="PlaceholderAnimation.Glow">
+            <Placeholder Width="PlaceholderWidth.Col12" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.Large" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.Small" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.ExtraSmall" />
+        </PlaceholderContainer>
+    }
+    else
+    {
+        <div class="add-margin">
+            <Grid @ref="_tipoAssetGrid"
+                  TItem="TipoAsset"
+                  class="table table-hover table-bordered table-striped"
+                  DataProvider="TipoAssetDataProvider"
+                  AllowFiltering="false"
+                  Responsive="true"
+                  ItemsPerPageText=""
+                  PageSizeSelectorVisible="true"
+                  PageSize="20"
+                  PageSizeSelectorItems="null">
+                <GridColumn TItem="TipoAsset" HeaderText="Id" PropertyName="ID">
+                    @context.ID
+                </GridColumn>
+                <GridColumn TItem="TipoAsset" HeaderText="Nombre" PropertyName="Nombre">
+                    @context.Nombre
+                </GridColumn>
+                <GridColumn TItem="TipoAsset" HeaderText="Descripcion" PropertyName="Descripcion">
+                    @context.Descripcion
+                </GridColumn>
+                <GridColumn TItem="TipoAsset" HeaderText="Icono" PropertyName="Icono">
+                    @if (!string.IsNullOrWhiteSpace(context.Icono))
+                    {
+                        <text>
+                            @context.Icono
+                            <Icon Name="@((IconName)Enum.Parse(typeof(IconName), context.Icono))" />
+                        </text>
+                    }
+                    else
+                    {
+                        <text>-- Sin ícono --</text>
+                    }
+                </GridColumn>
+                <GridColumn TItem="TipoAsset" HeaderText="Acciones">
+                    <button class="btn btn-primary btn-sm" @onclick="() => EditTipoAsset(context.ID)" title="Editar Tipo de Asset">
+                        <Icon Name="IconName.Pencil" />
+                    </button>
+                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteTipoAsset(context.ID)" title="Eliminar Tipo de Asset">
+                        <Icon Name="IconName.Trash" />
+                    </button>
+                </GridColumn>
+            </Grid>
+        </div>
+        <button @onclick="CreateNewTipoAsset" class="btn btn-success">Crear Nuevo Tipo Asset</button>
+    }
+</div>

@@ -1,0 +1,66 @@
+﻿@page "/tareas/edit/{TareaId:int?}"
+@using BackEnd_PGI.Model
+@inherits EditTareaComponent
+
+<div class="content-data mt-4">
+    <h3>@(Tarea.ID == 0 ? "Crear" : "Editar") Tarea</h3>
+
+    <EditForm Model="@Tarea" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="Descripcion" class="form-label">Descripcion de la Tarea</label>
+            <InputText id="Descripcion" class="form-control" @bind-Value="Tarea.Descripcion" />
+            <ValidationMessage For="@(() => Tarea.Descripcion)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="FechaInicio" class="form-label">Fecha de Inicio</label>
+            <InputDate id="FechaInicio" class="form-control" @bind-Value="Tarea.FechaInicio" />
+            <ValidationMessage For="@(() => Tarea.FechaInicio)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="FechaFin" class="form-label">Fecha de Fin (opcional)</label>
+            <InputDate id="FechaFin" class="form-control" @bind-Value="Tarea.FechaFin" />
+            <ValidationMessage For="@(() => Tarea.FechaFin)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="DeadLine" class="form-label">Fecha Vencimiento</label>
+            <InputDate id="DeadLine" class="form-control" @bind-Value="Tarea.DeadLine" />
+            <ValidationMessage For="@(() => Tarea.DeadLine)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Estado" class="form-label">Estado de la tarea</label>
+            <InputSelect id="Estado" class="form-control" @bind-Value="Tarea.Estado">
+                @foreach (var estado in Enum.GetValues(typeof(TipoEstadoTarea)))
+                {
+                    <option value="@estado">@estado</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label for="Analista" class="form-label">Analista</label>
+            <InputSelect id="Analista" class="form-control" @bind-Value="Tarea.AnalistaID">
+                @if (analistas != null)
+                {
+                    foreach (var analista in analistas)
+                    {
+                        <option value="@analista.ID">@analista.Nombre</option>
+                    }
+                }
+                else
+                {
+                    <option disabled="disabled">Cargando analistas...</option>
+                }
+            </InputSelect>
+        </div>
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="/tareas/@Tarea.CasoID" class="btn btn-secondary">Cancelar</a>
+    </EditForm>
+
+</div>

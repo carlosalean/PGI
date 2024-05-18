@@ -1,0 +1,34 @@
+﻿@page "/analistas/edit/{AnalistaId:int?}"
+@using BackEnd_PGI.Model
+@inherits EditarAnalistaComponent
+
+<div class="content-data mt-4">
+    <h3>@(Analista.ID == 0 ? "Crear" : "Editar") Caso</h3>
+
+    <EditForm Model="@Analista" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre</label>
+            <InputText id="Nombre" @bind-Value="Analista.Nombre" class="form-control" />
+            <ValidationMessage For="@(() => Analista.Nombre)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Direccion" class="form-label">Dirección</label>
+            <InputText id="Direccion" @bind-Value="Analista.Direccion" class="form-control" />
+            <ValidationMessage For="@(() => Analista.Direccion)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Telefono" class="form-label">Teléfono</label>
+            <InputText id="telefono" @bind-Value="Analista.Telefono" class="form-control" />
+            <ValidationMessage For="@(() => Analista.Telefono)" class="text-danger" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="/analistas" class="btn btn-secondary">Cancelar</a>
+    </EditForm>
+
+</div>

@@ -1,0 +1,63 @@
+﻿@page "/casos"
+@inherits CasosListComponent
+
+<div class="content-data mt-4">
+    <h3>Casos</h3>
+
+    @if (casos == null || !casos.Any())
+    {
+        <PlaceholderContainer Animation="PlaceholderAnimation.Glow">
+            <Placeholder Width="PlaceholderWidth.Col12" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.Large" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.Small" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.ExtraSmall" />
+        </PlaceholderContainer>
+    }
+    else
+    {
+        <div class="add-margin">
+            <Grid @ref="_casosGrid"
+                TItem="Caso" 
+                class="table table-hover table-bordered table-striped"
+                  DataProvider="CasoDataProvider"
+                AllowFiltering="false" 
+                Responsive="true" 
+                ItemsPerPageText="" 
+                PageSizeSelectorVisible="true"
+                PageSize="20"
+                PageSizeSelectorItems="null">
+                <GridColumn TItem="Caso" HeaderText="Id" PropertyName="ID">
+                    @context.ID
+                </GridColumn>
+                <GridColumn TItem="Caso" HeaderText="Nombre" PropertyName="Nombre">
+                    @context.Nombre
+                </GridColumn>
+                <GridColumn TItem="Caso" HeaderText="Fecha Inicio" PropertyName="FechaInicio">
+                    @context.FechaInicio
+                </GridColumn>
+                <GridColumn TItem="Caso" HeaderText="Estado" PropertyName="Estado">
+                    @context.Estado
+                </GridColumn>
+                <GridColumn TItem="Caso" HeaderText="Acciones">
+                    <button class="btn btn-primary btn-sm" @onclick="() => EditCase(context.ID)" title="Editar Caso">
+                        <Icon Name="IconName.Pencil" />
+                    </button>
+                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteCaso(context.ID)" title="Eliminar Caso">
+                        <Icon Name="IconName.Trash" />
+                    </button>
+                    <button class="btn btn-info btn-sm" @onclick="() => CreateTask(context.ID)" title="Crear Tarea">
+                        <Icon Name="IconName.ListTask" />
+                    </button>
+                    <button class="btn  btn-success btn-sm" @onclick="() => CreateAsset(context.ID)" title="Crear Assets">
+                        <Icon Name="IconName.Clipboard2Data" />
+                    </button>
+                    <button class="btn btn-warning btn-sm" @onclick="() => CreateMaquina(context.ID)" title="Crear Máquinas">
+                        <Icon Name="IconName.Display" />
+                    </button>
+
+                </GridColumn>
+            </Grid>
+        </div>
+      <button @onclick="CreateNewCase" class="btn btn-success">Crear Nuevo Caso</button>
+    }
+</div>

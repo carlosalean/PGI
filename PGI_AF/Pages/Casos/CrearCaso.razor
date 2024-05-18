@@ -1,0 +1,49 @@
+﻿@page "/casos/create"
+@using BackEnd_PGI.Model
+@inherits CrearCasoComponent
+
+<div class="content-data mt-4" style="padding: 50px;">
+    <h3>Crear Nuevo Caso</h3>
+
+    <EditForm Model="@Caso" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre del Caso</label>
+            <InputText id="Nombre" class="form-control" @bind-Value="Caso.Nombre" />
+            <ValidationMessage For="@(() => Caso.Nombre)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Descripcion" class="form-label">Descripción</label>
+            <InputTextArea id="Descripcion" class="form-control" @bind-Value="Caso.Descripcion" />
+            <ValidationMessage For="@(() => Caso.Descripcion)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="FechaInicio" class="form-label">Fecha de Inicio</label>
+            <InputDate id="FechaInicio" class="form-control" @bind-Value="Caso.FechaInicio" />
+            <ValidationMessage For="@(() => Caso.FechaInicio)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="FechaFin" class="form-label">Fecha de Fin (opcional)</label>
+            <InputDate id="FechaFin" class="form-control" @bind-Value="Caso.FechaFin" />
+            <ValidationMessage For="@(() => Caso.FechaFin)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Estado" class="form-label">Estado del Caso</label>
+            <InputSelect id="Estado" class="form-control" @bind-Value="Caso.Estado">
+                @foreach (var estado in Enum.GetValues(typeof(TipoEstadoCaso)))
+                {
+                    <option value="@estado">@estado</option>
+                }
+            </InputSelect>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a class="btn btn-secondary" @onclick="Cancel">Cancelar</a>
+    </EditForm>
+</div>

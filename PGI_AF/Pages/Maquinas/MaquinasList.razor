@@ -1,0 +1,55 @@
+﻿@page "/maquinas/{CasoId:int?}"
+@inherits MaquinasListComponent
+
+<div class="content-data mt-4">
+    <h3>Maquinas</h3>
+
+    @if (maquinas == null || !maquinas.Any())
+    {
+        <PlaceholderContainer Animation="PlaceholderAnimation.Glow">
+            <Placeholder Width="PlaceholderWidth.Col12" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.Large" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.Small" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.ExtraSmall" />
+        </PlaceholderContainer>
+    }
+    else
+    {
+        <div class="add-margin">
+            <h3> Caso: @CasoId </h3>
+            <Grid @ref="_maquinasGrid"
+                  TItem="Maquina"
+                  class="table table-hover table-bordered table-striped"
+                  DataProvider="MaquinaDataProvider"
+                  AllowFiltering="false"
+                  Responsive="true"
+                  ItemsPerPageText=""
+                  PageSizeSelectorVisible="true"
+                  PageSize="20"
+                  PageSizeSelectorItems="null">
+                <GridColumn TItem="Maquina" HeaderText="Id" PropertyName="ID">
+                    @context.ID
+                </GridColumn>
+                <GridColumn TItem="Maquina" HeaderText="Nombre" PropertyName="Nombre">
+                    @context.Nombre
+                </GridColumn>
+                <GridColumn TItem="Maquina" HeaderText="Descripcion" PropertyName="Descripcion">
+                    @context.Descripcion
+                </GridColumn>
+                <GridColumn TItem="Maquina" HeaderText="Acciones">
+                    <button class="btn btn-primary btn-sm" @onclick="() => EditMaquina(context.ID)" title="Editar Maquina">
+                        <Icon Name="IconName.Pencil" />
+                    </button>
+                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteMaquina(context.ID)" title="Eliminar Maquina">
+                        <Icon Name="IconName.Trash" />
+                    </button>
+                    <button class="btn btn-info btn-sm" @onclick="() => CreateAsset(CasoId)" title="Crear Assets">
+                        <Icon Name="IconName.Clipboard2Data" />
+                    </button>
+                </GridColumn>
+            </Grid>
+        </div>
+        <button @onclick="CreateNewMaquina" class="btn btn-success">Crear Nueva Maquina</button>
+    }
+</div>
+

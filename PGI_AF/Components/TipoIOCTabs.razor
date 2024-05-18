@@ -1,0 +1,64 @@
+
+<Tabs EnableFadeEffect="true">
+    @if (TipoIOCs == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        @foreach (var tipoIOC in TipoIOCs)
+        {
+            <Tab IsActive="true">
+                <TitleTemplate>
+                    @{
+                        var iconName = GetIconName(tipoIOC.Icono);
+                    }
+                    <Icon Name="iconName" /> @tipoIOC.Nombre
+                </TitleTemplate>
+                <Content>
+                    <p class="mt-3">@tabContents[tipoIOC.ID]</p>
+                </Content>
+            </Tab>
+        }    
+    }    
+</Tabs>
+
+@code {
+    [Parameter]
+    public List<TipoIOC> TipoIOCs { get; set; } = new();
+
+    [Parameter]
+    public string Content { get; set; } = string.Empty;
+
+    private Dictionary<int, string> tabContents = new();
+
+    protected override void OnParametersSet()
+    {
+        // Initialize the tabContents dictionary if not already initialized
+        if (TipoIOCs != null)
+        {
+            foreach (var tipoIOC in TipoIOCs)
+            {
+                if (!tabContents.ContainsKey(tipoIOC.ID))
+                {
+                    tabContents[tipoIOC.ID] = string.Empty;
+                }
+            }
+        }
+    }
+
+    public void UpdateTabContent(int tipoIOCId, string newContent)
+    {
+        if (tabContents.ContainsKey(tipoIOCId))
+        {
+            tabContents[tipoIOCId] = newContent;
+            StateHasChanged();
+        }
+    }
+
+    private IconName GetIconName(string icono)
+    {
+        return (IconName)Enum.Parse(typeof(IconName), icono);
+    }
+}
+

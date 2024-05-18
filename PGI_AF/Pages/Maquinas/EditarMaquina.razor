@@ -1,0 +1,28 @@
+﻿@page "/maquinas/edit/{MaquinaId:int?}"
+@using BackEnd_PGI.Model
+@inherits EditarMaquinaComponent
+
+<div class="content-data mt-4">
+    <h3>@(Maquina.ID == 0 ? "Crear" : "Editar") Maquina</h3>
+
+    <EditForm Model="@Maquina" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre</label>
+            <InputText id="Nombre" class="form-control" @bind-Value="Maquina.Nombre" />
+            <ValidationMessage For="@(() => Maquina.Nombre)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Descripcion" class="form-label">Descripción</label>
+            <InputText id="Descripcion" class="form-control" @bind-Value="Maquina.Descripcion" />
+            <ValidationMessage For="@(() => Maquina.Descripcion)" class="text-danger" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="/maquinas/@Maquina.CasoID" class="btn btn-secondary">Cancelar</a>
+    </EditForm>
+
+</div>

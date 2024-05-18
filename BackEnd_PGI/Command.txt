@@ -1,0 +1,14 @@
+﻿//enable dotnet tools
+dotnet tool install --global dotnet-ef --version 8.0.4
+
+//create InitialCreate migration
+dotnet ef migrations add InitialMigration
+
+//update dabase 
+dotnet ef database update
+
+//show migrations
+dotnet ef migrations list
+
+// delete the last migration
+dotnet ef migrations remove

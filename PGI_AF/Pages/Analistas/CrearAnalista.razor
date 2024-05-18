@@ -1,0 +1,33 @@
+﻿@page "/analistas/create"
+@using BackEnd_PGI.Model
+@inherits CrearAnalistaComponent
+
+<div class="content-data mt-4" style="padding: 50px;">
+    <h3>Crear Nuevo Analista</h3>
+
+    <EditForm Model="@Analista" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre Analista</label>
+            <InputText id="Nombre" class="form-control" @bind-Value="Analista.Nombre" />
+            <ValidationMessage For="@(() => Analista.Nombre)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Direccion" class="form-label">Dirección</label>
+            <InputText id="Direccion" class="form-control" @bind-Value="Analista.Direccion" />
+            <ValidationMessage For="@(() => Analista.Direccion)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Telefono" class="form-label">Telefono</label>
+            <InputText id="Telefono" class="form-control" @bind-Value="Analista.Telefono" />
+            <ValidationMessage For="@(() => Analista.Telefono)" class="text-danger" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a class="btn btn-secondary" @onclick="Cancel">Cancelar</a>
+    </EditForm>
+</div>

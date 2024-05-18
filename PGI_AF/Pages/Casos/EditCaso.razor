@@ -1,0 +1,55 @@
+﻿@page "/casos/edit/{CasoId:int?}"
+@using BackEnd_PGI.Model
+@inherits EditCasoComponent
+
+<div class="content-data mt-4">
+    <h3>@(Caso.ID == 0 ? "Crear" : "Editar") Caso</h3>
+
+    <EditForm Model="@Caso" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <!-- Nombre del caso -->
+        <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre</label>
+            <InputText id="Nombre" @bind-Value="Caso.Nombre" class="form-control" />
+            <ValidationMessage For="@(() => Caso.Nombre)" class="text-danger" />
+        </div>
+
+        <!-- Descripción del caso -->
+        <div class="mb-3">
+            <label for="Descripcion" class="form-label">Descripción</label>
+            <InputTextArea id="Descripcion" @bind-Value="Caso.Descripcion" class="form-control" />
+            <ValidationMessage For="@(() => Caso.Descripcion)" class="text-danger" />
+        </div>
+
+        <!-- Fecha de inicio -->
+        <div class="mb-3">
+            <label for="FechaInicio" class="form-label">Fecha de inicio</label>
+            <InputDate id="FechaInicio" @bind-Value="Caso.FechaInicio" class="form-control" />
+            <ValidationMessage For="@(() => Caso.FechaInicio)" class="text-danger" />
+        </div>
+
+        <!-- Fecha de fin (opcional) -->
+        <div class="mb-3">
+            <label for="FechaFin" class="form-label">Fecha de fin</label>
+            <InputDate id="FechaFin" @bind-Value="Caso.FechaFin" class="form-control" />
+            <ValidationMessage For="@(() => Caso.FechaFin)" class="text-danger" />
+        </div>
+
+        <!-- Estado del caso -->
+        <div class="mb-3">
+            <label for="Estado" class="form-label">Estado del Caso</label>
+            <InputSelect id="Estado" class="form-control" @bind-Value="Caso.Estado">
+                @foreach (var estado in Enum.GetValues(typeof(TipoEstadoCaso)))
+                {
+                    <option value="@estado">@estado</option>
+                }
+            </InputSelect>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="/casos" class="btn btn-secondary">Cancelar</a>
+    </EditForm>
+
+</div>

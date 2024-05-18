@@ -1,0 +1,41 @@
+﻿@page "/tipoAssets/edit/{TipoAssetId:int?}"
+@using BackEnd_PGI.Model
+@inherits EditTipoAssetComponent
+
+<div class="content-data mt-4">
+    <h3>@(TipoAsset.ID == 0 ? "Crear" : "Editar") TipoAsset</h3>
+
+    <EditForm Model="@TipoAsset" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <!-- Nombre del tipoAsset -->
+        <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre</label>
+            <InputText id="Nombre" @bind-Value="TipoAsset.Nombre" class="form-control" />
+            <ValidationMessage For="@(() => TipoAsset.Nombre)" class="text-danger" />
+        </div>
+
+        <!-- Descripción del tipoAsset -->
+        <div class="mb-3">
+            <label for="Descripcion" class="form-label">Descripción</label>
+            <InputTextArea id="Descripcion" @bind-Value="TipoAsset.Descripcion" class="form-control" />
+            <ValidationMessage For="@(() => TipoAsset.Descripcion)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Icono" class="form-label">Icono</label>
+            <InputSelect id="Icono" class="form-control" @bind-Value="TipoAsset.Icono">
+                <option value="">Seleccione un ícono...</option>
+                @foreach (var iconName in Enum.GetValues(typeof(IconName)))
+                {
+                    <option value="@iconName">@iconName</option>
+                }
+            </InputSelect>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="/tipoAssets" class="btn btn-secondary">Cancelar</a>
+    </EditForm>
+
+</div>

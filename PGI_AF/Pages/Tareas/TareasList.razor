@@ -1,0 +1,59 @@
+﻿@page "/tareas/{CasoId:int?}"
+@inherits TareasListComponent
+
+<div class="content-data mt-4">
+    <h3>Lista de Tareas..</h3>
+    @if (tareas == null || !tareas.Any())
+    {
+        <PlaceholderContainer Animation="PlaceholderAnimation.Glow">
+            <Placeholder Width="PlaceholderWidth.Col12" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.Large" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.Small" />
+            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.ExtraSmall" />
+        </PlaceholderContainer>
+    }
+    else
+    {
+        <div class="add-margin">
+            <h3> Caso: @CasoId </h3>
+            <Grid @ref="_tareasGrid"
+                  TItem="Tarea"
+                  class="table table-hover table-bordered table-striped"
+                  DataProvider="TareaDataProvider"
+                  AllowFiltering="false"
+                  Responsive="true"
+                  ItemsPerPageText=""
+                  PageSizeSelectorVisible="true"
+                  PageSize="20"
+                  PageSizeSelectorItems="null"
+                  PaginationItemsTextFormat="">
+                <GridColumn TItem="Tarea" HeaderText="Id" PropertyName="ID">
+                    @context.ID
+                </GridColumn>
+                <GridColumn TItem="Tarea" HeaderText="Descripcion" PropertyName="Descripcion">
+                    @context.Descripcion
+                </GridColumn>
+                <GridColumn TItem="Tarea" HeaderText="Fecha Inicio" PropertyName="FechaInicio">
+                    @context.FechaInicio
+                </GridColumn>
+                <GridColumn TItem="Tarea" HeaderText="Fecha Fin" PropertyName="FechaFin">
+                    @context.FechaFin
+                </GridColumn>
+                <GridColumn TItem="Tarea" HeaderText="Fecha Vencimiento" PropertyName="DeadLine">
+                    @context.DeadLine
+                </GridColumn>
+                <GridColumn TItem="Tarea" HeaderText="Analista" PropertyName="AnalistaID">
+                    @{
+                        var analista = analistas?.FirstOrDefault(a => a.ID == context.AnalistaID);
+                    }
+                    <text>@(analista?.Nombre ?? "No Asignado")</text>
+                </GridColumn>
+                <GridColumn TItem="Tarea" HeaderText="Acciones">
+                    <button class="btn btn-primary btn-sm" @onclick="() => EditTarea(context.ID)"><Icon Name="IconName.Pencil" /></button>               
+                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteTarea(context.ID)"><Icon Name="IconName.Trash" /></button>
+                </GridColumn>
+            </Grid>
+        </div>
+        <button @onclick="CreateNewTask" class="btn btn-success">Crear Nueva Tarea</button>
+    }
+</div>

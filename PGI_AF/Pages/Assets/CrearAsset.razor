@@ -1,0 +1,72 @@
+﻿@page "/assets/create/{CasoId:int?}"
+@using BackEnd_PGI.Model
+@inherits CrearAssetComponent
+
+<div class="content-data mt-4" style="padding: 50px;">
+    <h3>Crear Nuevo Asset</h3>
+
+    <EditForm Model="@Asset" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre del Asset</label>
+            <InputText id="Nombre" class="form-control" @bind-Value="Asset.Nombre" />
+            <ValidationMessage For="@(() => Asset.Nombre)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Descripcion" class="form-label">Descripcion del Asset</label>
+            <InputText id="Descripcion" class="form-control" @bind-Value="Asset.Descripcion" />
+            <ValidationMessage For="@(() => Asset.Descripcion)" class="text-danger" />
+        </div>
+
+
+        <div class="mb-3">
+            <label for="TipoAsset" class="form-label">Tipo Asset</label>
+            <InputSelect id="TipoAsset" class="form-control" @bind-Value="Asset.TipoAssetID">
+                @if (tipoAsets != null)
+                {
+                    foreach (var tipoAset in tipoAsets)
+                    {
+                        <option value="@tipoAset.ID">@tipoAset.Nombre</option>
+                    }
+                }
+                else
+                {
+                    <option disabled="disabled">Cargando tipo assets...</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label for="Maquina" class="form-label">Maquina</label>
+            <InputSelect id="Maquina" class="form-control" @bind-Value="Asset.MaquinaID">
+                @if (maquinas != null)
+                {
+                    foreach (var maquina in maquinas)
+                    {
+                        <option value="@maquina.ID">@maquina.Nombre</option>
+                    }
+                }
+                else
+                {
+                    <option disabled="disabled">Cargando maquinas...</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label for="Ubicacion" class="form-label">Ubicación del Asset</label>
+            <div class="input-group">
+                <InputText id="Ubicacion" class="form-control" @bind-Value="Asset.Ubicacion" />
+                <InputFile class="btn btn-secondary" OnChange="HandleFileSelected" />
+            </div>
+            <ValidationMessage For="@(() => Asset.Ubicacion)" class="text-danger" />
+        </div>
+
+  
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a class="btn btn-secondary" @onclick="Cancel">Cancelar</a>
+    </EditForm>
+</div>
