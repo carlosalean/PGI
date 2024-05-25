@@ -1,6 +1,6 @@
 ﻿using BackEnd_PGI.Interface;
 using BackEnd_PGI.Model;
-using BackEnd_PGI.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_PGI.Controllers
@@ -8,6 +8,7 @@ namespace API_PGI.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MaquinasController : ControllerBase
     {
         private readonly IMaquinaRepository _maquinaRepository;

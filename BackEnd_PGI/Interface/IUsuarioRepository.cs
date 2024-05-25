@@ -14,5 +14,7 @@ namespace BackEnd_PGI.Interface
         Task<Usuario> CreateAsync(Usuario usuario);
         Task UpdateAsync(Usuario usuario);
         Task DeleteAsync(int id);
+        Task<Usuario> GetUsuarioByCredentialsAsync(string username, string password);
+        Task<bool> ChangePasswordAsync(int id, string currentPassword, string newPassword);
     }
 }

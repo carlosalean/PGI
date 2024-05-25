@@ -1,0 +1,69 @@
+﻿@page "/register"
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@using System.ComponentModel.DataAnnotations
+
+<div class="d-flex justify-content-center align-items-center ">
+    <div class="content-data mt-4 p-4 border rounded" style="width: 500px;">
+        <h3 class="text-center">Registro</h3>
+
+        <EditForm Model="registerModel" OnValidSubmit="HandleRegister">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="mb-3">
+                <label for="username" class="form-label">Nombre de Usuario:</label>
+                <InputText id="username" class="form-control" @bind-Value="registerModel.NombreUsuario" />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña:</label>
+                <InputText id="password" class="form-control" type="password" @bind-Value="registerModel.Password" />
+            </div>
+@*             <div class="mb-3">
+                <label for="idRol" class="form-label">Rol:</label>
+                <InputNumber id="idRol" class="form-control" @bind-Value="registerModel.IdRol" />
+            </div>
+ *@            <button type="submit" class="btn btn-success w-100">Registrar</button>
+            <a class="btn btn-link w-100" @onclick="NavigateToLogin">Volver al Login</a>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private RegisterModel registerModel = new RegisterModel();
+
+    private async Task HandleRegister()
+    {
+        var usuario = new Usuario
+            {
+                NombreUsuario = registerModel.NombreUsuario,
+                Password = registerModel.Password,
+                IdRol = 1
+            };
+
+        if (await AuthService.RegisterAsync(usuario))
+        {
+            Navigation.NavigateTo("/", true);
+        }
+        else
+        {
+            // Handle registration failure (e.g., show a message to the user)
+        }
+    }
+
+    private void NavigateToLogin()
+    {
+        Navigation.NavigateTo("/");
+    }
+
+    public class RegisterModel
+    {
+        [Required]
+        public string NombreUsuario { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+        [Required]
+        public int IdRol { get; set; }
+    }
+}

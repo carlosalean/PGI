@@ -13,7 +13,5 @@ namespace BackEnd_PGI.Model
         public string Password { get; set; }
         public int IdRol { get; set; }
 
-        // Relación con Rol
-        public Rol Rol { get; set; }
     }
 }

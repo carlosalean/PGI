@@ -1,11 +1,13 @@
 ﻿using BackEnd_PGI.Interface;
 using BackEnd_PGI.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_PGI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TipoIOCsController : ControllerBase
     {
         private readonly ITipoIOCRepository _tipoIOCRepository;

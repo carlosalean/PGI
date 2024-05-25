@@ -11,9 +11,9 @@ namespace PGI_AF.Pages.Casos
         private CasosService CasosService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; } // Inyección de NavigationManager
+        private NavigationManager NavigationManager { get; set; }
 
-        public List<Caso>? casos = [];
+        public List<Caso>? casos = new List<Caso>();
 
         public Grid<Caso>? _casosGrid;
 
@@ -22,10 +22,25 @@ namespace PGI_AF.Pages.Casos
         {
             return await Task.FromResult(request.ApplyTo(casos));
         }
+
         protected override async Task OnInitializedAsync()
+        {
+            // Deja este método vacío para evitar llamadas JSInterop prematuras
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await LoadDataAsync();
+            }
+        }
+
+        private async Task LoadDataAsync()
         {
             casos = await CasosService.GetCasosAsync();
             await (_casosGrid?.RefreshDataAsync() ?? Task.CompletedTask);
+
             if (!casos.Any())
             {
                 NavigationManager.NavigateTo("/casos/create");
@@ -37,7 +52,7 @@ namespace PGI_AF.Pages.Casos
             await CasosService.DeleteCasoAsync(casoId);
             casos = await CasosService.GetCasosAsync(); // Refresh list
             StateHasChanged(); // Re-render the component
-            await (_casosGrid?.RefreshDataAsync() ?? Task.CompletedTask);            
+            await (_casosGrid?.RefreshDataAsync() ?? Task.CompletedTask);
         }
 
         public void CreateNewCase()
@@ -54,7 +69,7 @@ namespace PGI_AF.Pages.Casos
         {
             NavigationManager.NavigateTo($"tareas/{caseId}");
         }
-        
+
         public void CreateAsset(int caseId)
         {
             NavigationManager.NavigateTo($"assets/{caseId}");
@@ -64,7 +79,5 @@ namespace PGI_AF.Pages.Casos
         {
             NavigationManager.NavigateTo($"maquinas/{caseId}");
         }
-        
-
     }
 }
