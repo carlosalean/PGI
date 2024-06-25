@@ -1,19 +1,20 @@
-﻿
-<div class="nav-scrollable" >
+﻿<div class="nav-scrollable">
     <nav class="flex-column">
         <div class="nav-item px-3">
-                <NavLink @onclick="() => NodeClick(Node)" class="nav-link">
-                    <Icon Name="@Node.Icon" />
-                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @Node.Text
-                </NavLink>
+            <NavLink @onclick="() => NodeClick(Node)" class="nav-link">
+                <Icon Name="@Node.Icon" />
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @Node.Text
+            </NavLink>
         </div>
         @if (Node.Children?.Any() == true)
         {
-            <ul>
+            <ul class="list-group ms-3">
                 @foreach (var child in Node.Children)
                 {
-                    <TreeNodeComponent OnNodeClick="() => NodeClick(child)"
-                                  Node="child"></TreeNodeComponent>
+                    <li class="list-group-item">
+                        <TreeNodeComponent OnNodeClick="() => NodeClick(child)"
+                                           Node="child" />
+                    </li>
                 }
             </ul>
         }
@@ -27,15 +28,9 @@
     [Parameter]
     public EventCallback<TreeNode> OnNodeClick { get; set; }
 
-    private string nodeClass = "";
-
     private async Task NodeClick(TreeNode node)
     {
-        if (node.Tipo == "Asset")
-        {
-            
-        } 
         await OnNodeClick.InvokeAsync(node);
     }
-    
 }
+

@@ -1,0 +1,29 @@
+﻿@page "/timeline"
+
+@inherits TimeLineComponent
+
+<div class="content-data mt-4">
+    <div class="mb-3">
+        <label for="Casos" class="form-label">Casos</label>
+        <EditForm Model="SelectedCasoId">
+            <InputSelect @bind-Value="SelectedCasoId" class="form-control">
+                @if (casos != null && casos.Count > 0)
+                {
+                    foreach (var caso in casos)
+                    {
+                        <option value="@caso.ID">@caso.Nombre</option>
+                    }
+                }
+                else
+                {
+                    <option disabled="disabled">Cargando casos...</option>
+                }
+            </InputSelect>
+        </EditForm>
+    </div>
+    <div class="row">
+    </div>
+</div>
+@code {
+
+}

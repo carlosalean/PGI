@@ -16,9 +16,9 @@ namespace PGI_AF.Services
             return await _httpClient.GetFromJsonAsync<List<Maquina>>("api/Maquinas");
         }
 
-        public async Task<List<Maquina>> GetMaquinasWithAssetsAsync()
+        public async Task<List<Maquina>> GetMaquinasWithAssetsAsync(int CasoID)
         {
-            return await _httpClient.GetFromJsonAsync<List<Maquina>>("api/Maquinas/Assets");
+            return await _httpClient.GetFromJsonAsync<List<Maquina>>($"api/Maquinas/Assets/{CasoID}");
         }
 
         public async Task<List<Maquina>> GetMaquinasCasoAsync(int CasoID)

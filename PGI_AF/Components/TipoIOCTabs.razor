@@ -8,7 +8,8 @@
     {
         @foreach (var tipoIOC in TipoIOCs)
         {
-            <Tab IsActive="true">
+            <Tab IsActive="true"
+                 OnClick="(args) => OnTabClick(args, tipoIOC.ID)">
                 <TitleTemplate>
                     @{
                         var iconName = GetIconName(tipoIOC.Icono);
@@ -32,9 +33,10 @@
 
     private Dictionary<int, string> tabContents = new();
 
+    private string valuetext = ""; 
+
     protected override void OnParametersSet()
     {
-        // Initialize the tabContents dictionary if not already initialized
         if (TipoIOCs != null)
         {
             foreach (var tipoIOC in TipoIOCs)
@@ -55,6 +57,10 @@
             StateHasChanged();
         }
     }
+    private void OnTabClick(TabEventArgs args, int id)
+    {
+         valuetext = tabContents[id];
+    } 
 
     private IconName GetIconName(string icono)
     {

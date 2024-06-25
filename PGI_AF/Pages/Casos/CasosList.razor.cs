@@ -25,19 +25,6 @@ namespace PGI_AF.Pages.Casos
 
         protected override async Task OnInitializedAsync()
         {
-            // Deja este método vacío para evitar llamadas JSInterop prematuras
-        }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
-            {
-                await LoadDataAsync();
-            }
-        }
-
-        private async Task LoadDataAsync()
-        {
             casos = await CasosService.GetCasosAsync();
             await (_casosGrid?.RefreshDataAsync() ?? Task.CompletedTask);
 

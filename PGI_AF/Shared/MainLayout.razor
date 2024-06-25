@@ -1,51 +1,63 @@
-﻿@inherits LayoutComponentBase
-@inject AuthenticationStateProvider AuthenticationStateProvider
+﻿@using PGI_AF.Interfaces
+@inherits LayoutComponentBase
+@inject IAuthService AuthService
 @inject NavigationManager Navigation
-@using Microsoft.AspNetCore.Components.Authorization
 
 <PageTitle>PGI_AF</PageTitle>
 
 <div class="bb-page">
-    @if (isUserAuthenticated)
+    @if (isLoading)
     {
-        <Sidebar @ref="sidebar"
-                 ImageSrc="./ico/icono.svg"
-                 Title="Administración Forense"
-                 DataProvider="SidebarDataProvider" />
+        <p>Cargando...</p>
     }
-    <main>
-        <div class="bb-top-row px-4 d-flex justify-content-between">
-            @if (isUserAuthenticated)
-            {
-                <Icon Name="IconName.List" role="button" @onclick="ToggleSidebar" />
-            }
-            <a href="/." target="_blank">Ayuda</a>
-        </div>
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+    else
+    {
+        @if (isAuthenticated)
+        {
+            <Sidebar @ref="sidebar"
+                     ImageSrc="./ico/icono.svg"
+                     Title="Administración Forence"
+                     DataProvider="SidebarDataProvider" />
+        }
+        <main>
+            <div class="bb-top-row px-4 d-flex justify-content-between">
+                @if (isAuthenticated)
+                {
+                    <Icon Name="IconName.List" role="button" @onclick="ToggleSidebar" />
+                    <button @onclick="Logout" class="btn btn-link">Logout</button>
+                }
+                @* <a href="/." target="_blank">Ayuda</a> *@
+            </div>
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    }
 </div>
 
 @code {
     private Sidebar sidebar = default!;
     private IEnumerable<NavItem>? navItems;
     private bool applyPurpleStyle = true;
-    private bool isUserAuthenticated = false;
+    private bool isAuthenticated = false;
+    private bool isLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        isUserAuthenticated = authState.User.Identity.IsAuthenticated;
+        isAuthenticated = await AuthService.IsUserAuthenticated();
+        isLoading = false;
 
-        AuthenticationStateProvider.AuthenticationStateChanged += OnAuthenticationStateChanged;
+        if (!isAuthenticated && !Navigation.Uri.Contains("login"))
+        {
+            Navigation.NavigateTo("/login", true);
+        }
     }
 
-    private async void OnAuthenticationStateChanged(Task<AuthenticationState> task)
+    private async Task Logout()
     {
-        var authState = await task;
-        isUserAuthenticated = authState.User.Identity.IsAuthenticated;
-        StateHasChanged();
+        await AuthService.LogoutAsync();
+        isAuthenticated = false;
+        Navigation.NavigateTo("/login", true);
     }
 
     private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
@@ -66,8 +78,9 @@
             new NavItem { Id = "3", Href = "/casos", IconName = IconName.BriefcaseFill, Text = "Casos", ParentId="2" },
             new NavItem { Id = "4", Href = "/analistas", IconName = IconName.PeopleFill, Text = "Analistas", ParentId="2" },
             new NavItem { Id = "5", Href = "/tipoAssets", IconName = IconName.PeopleFill, Text = "Tipos Assets", ParentId="2" },
-            new NavItem { Id = "6", IconName = IconName.ViewList, Text = "Análisis", IconColor = IconColor.Success },
+            new NavItem { Id = "6", IconName = IconName.ViewList, Text = "Anális", IconColor = IconColor.Success },
             new NavItem { Id = "7", Href = "/analisis", IconName = IconName.CheckCircleFill, Text = "Configurar Análisis", ParentId="6" },
+            new NavItem { Id = "8", Href = "/timeline", IconName = IconName.ClockHistory, Text = "Time Line", ParentId="6" },
         };
 
         return navItems;

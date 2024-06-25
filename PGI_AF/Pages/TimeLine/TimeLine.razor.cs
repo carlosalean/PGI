@@ -1,12 +1,12 @@
 ﻿using BackEnd_PGI.Model;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
-using PGI_AF.Services;
 using PGI_AF.Components;
+using PGI_AF.Services;
 
-namespace PGI_AF.Pages.Analisis
+namespace PGI_AF.Pages.TimeLine
 {
-    public class AnalisisListComponent : ComponentBase
+    public class TimeLineComponent : ComponentBase
     {
         [Inject]
         private MaquinasService MaquinasService { get; set; }
@@ -45,7 +45,7 @@ namespace PGI_AF.Pages.Analisis
                     _caso = value;
                     if (_caso != null)
                     {
-                        LoadMaquinasCaso(_caso);
+                        //LoadMaquinasCaso(_caso);
                     }
                 }
             }
@@ -74,7 +74,7 @@ namespace PGI_AF.Pages.Analisis
             await LoadMaquinasCaso(SelectedCaso);
 
             tipoIOCs = await TipoIOCsService.GetTipoIOCAsync();
-           
+
 
             if (casos.Count > 0)
                 _caso = casos[0];
@@ -123,10 +123,11 @@ namespace PGI_AF.Pages.Analisis
                 }).ToList()
             }).ToList();
         }
-       
+
         protected async Task HandleNodeClick(TreeNode node)
         {
-            if (node != null && node.Tipo != "Asset") {
+            if (node != null && node.Tipo != "Asset")
+            {
                 Asset asset = await AssetsService.GetAssetsWithIOCAsync(node.ID);
 
                 foreach (BackEnd_PGI.Model.IOC child in asset.IOCs)
@@ -140,4 +141,5 @@ namespace PGI_AF.Pages.Analisis
         }
 
     }
+
 }

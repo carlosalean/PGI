@@ -5,9 +5,9 @@
 <div class="content-data mt-4">
         <div class="mb-3">
             <label for="Casos" class="form-label">Casos</label>
-            <EditForm Model="casos">
-                <InputSelect @bind-Value="SelectedCaso" class="form-control">
-                    @if (casos != null)
+            <EditForm Model="SelectedCasoId">
+                <InputSelect @bind-Value="SelectedCasoId" class="form-control">
+                    @if (casos != null && casos.Count > 0)
                     {
                         foreach (var caso in casos)
                         {
@@ -16,7 +16,7 @@
                     }
                     else
                     {
-                        <option disabled="disabled">Cargando maquinas...</option>
+                        <option disabled="disabled">Cargando casos...</option>
                     }
                 </InputSelect>
             </EditForm>
@@ -24,10 +24,7 @@
         <div class="row">
             <div class="col-md-3 no-padding">
                 <div class="tighter">
-                    <Card >
-                    @* <Sidebar @ref="sidebar"
-                             Title="Maquinas"
-                             DataProvider="SidebarDataProvider" /> *@
+                    <Card Style="color:black" >
                         <CardBody>
                             @if (treeNodes == null)
                             {
@@ -55,49 +52,7 @@
                                     @ref="tipoIOCTabs" 
                                     TipoIOCs="tipoIOCs"> 
                                 </TipoIOCTabs>
-@*                                 <Tabs EnableFadeEffect="true">
-                                    <Tab IsActive="true">
-                                        <TitleTemplate>
-                                            <Icon Name="IconName.Clipboard2X" /> Archivos Maliciosos
-                                        </TitleTemplate>
-                                        <Content>
-                                            <p class="mt-3"> <b>Cadenas de malware:</b> Textos específicos que pueden estar incrustados dentro de un archivo y que son indicativos de malware, como claves específicas de registro, partes del código, etc. </p>
-                                        </Content>
-                                    </Tab>
-                                    <Tab>
-                                        <TitleTemplate>
-                                            <Icon Name="IconName.CodeSlash" /> Malware
-                                        </TitleTemplate>
-                                        <Content>
-                                            <p class="mt-3"> <b>Cadenas de malware:</b> Textos específicos que pueden estar incrustados dentro de un archivo y que son indicativos de malware, como claves específicas de registro, partes del código, etc. </p>
-                                        </Content>
-                                    </Tab>
-                                    <Tab>
-                                        <TitleTemplate>
-                                            <Icon Name="IconName.ColumnsGap" /> Configuraciones
-                                        </TitleTemplate>
-                                        <Content>
-                                            <p class="mt-3"> Configuraciones de registro anormales o inusuales: Claves de registro que son modificadas por malware para garantizar la persistencia o para deshabilitar medidas de seguridad. <b>Contact</b> tab.</p>
-                                        </Content>
-                                    </Tab>
-                                    <Tab>
-                                        <TitleTemplate>
-                                            <Icon Name="IconName.BrowserChrome" /> Tráfico de red
-                                        </TitleTemplate>
-                                        <Content>
-                                            <p class="mt-3"> Configuraciones de registro anormales o inusuales: Claves de registro que son modificadas por malware para garantizar la persistencia o para deshabilitar medidas de seguridad. <b>Contact</b> tab.</p>
-                                        </Content>
-                                    </Tab>
-                                    <Tab>
-                                        <TitleTemplate>
-                                            <Icon Name="IconName.EnvelopeAt" /> Emails y adjuntos
-                                        </TitleTemplate>
-                                        <Content>
-                                            <p class="mt-3"> Configuraciones de registro anormales o inusuales: Claves de registro que son modificadas por malware para garantizar la persistencia o para deshabilitar medidas de seguridad. <b>Contact</b> tab.</p>
-                                        </Content>
-                                    </Tab>
-                                </Tabs>
- *@                            </CardBody>
+                            </CardBody>
                         </Card>
                 </div>
             </div>

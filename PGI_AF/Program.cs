@@ -1,8 +1,7 @@
-using Blazored.LocalStorage;
 using PGI_AF.Services;
-using Microsoft.AspNetCore.Components.Authorization;
 using PGI_AF.Autentication;
 using PGI_AF.Interfaces;
+using Blazored.LocalStorage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,50 +11,27 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddBlazoredLocalStorage();
 
-builder.Services.AddScoped<ITokenProvider, TokenProvider>();
-builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-builder.Services.AddScoped<AuthTokenHandler>();
-
-builder.Services.AddHttpClient<CasosService>(client =>
+// Registrar HttpClient con la URL base de tu API para todos los servicios
+builder.Services.AddScoped(sp =>
 {
-    client.BaseAddress = new Uri(uriString: builder.Configuration["ApiSettings:BaseUri"]);
-}).AddHttpMessageHandler<AuthTokenHandler>();
-
-builder.Services.AddHttpClient<TareasService>(client =>
-{
-    client.BaseAddress = new Uri(uriString: builder.Configuration["ApiSettings:BaseUri"]);
-}).AddHttpMessageHandler<AuthTokenHandler>();
-
-builder.Services.AddHttpClient<AnalistasService>(client =>
-{
-    client.BaseAddress = new Uri(uriString: builder.Configuration["ApiSettings:BaseUri"]);
-}).AddHttpMessageHandler<AuthTokenHandler>();
-
-builder.Services.AddHttpClient<AssetsService>(client =>
-{
-    client.BaseAddress = new Uri(uriString: builder.Configuration["ApiSettings:BaseUri"]);
-}).AddHttpMessageHandler<AuthTokenHandler>();
-
-builder.Services.AddHttpClient<TipoAssetsService>(client =>
-{
-    client.BaseAddress = new Uri(uriString: builder.Configuration["ApiSettings:BaseUri"]);
-}).AddHttpMessageHandler<AuthTokenHandler>();
-
-builder.Services.AddHttpClient<MaquinasService>(client =>
-{
-    client.BaseAddress = new Uri(uriString: builder.Configuration["ApiSettings:BaseUri"]);
-}).AddHttpMessageHandler<AuthTokenHandler>();
-
-builder.Services.AddHttpClient<TipoIOCsService>(client =>
-{
-    client.BaseAddress = new Uri(uriString: builder.Configuration["ApiSettings:BaseUri"]);
-}).AddHttpMessageHandler<AuthTokenHandler>();
-
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddHttpClient<AuthService>(client =>
-{
-    client.BaseAddress = new Uri(uriString: builder.Configuration["ApiSettings:BaseUri"]);
+    var httpClient = new HttpClient
+    {
+        BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUri"])
+    };
+    return httpClient;
 });
+
+// Registrar AuthService
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Registrar otros servicios
+builder.Services.AddScoped<CasosService>();
+builder.Services.AddScoped<TareasService>();
+builder.Services.AddScoped<AnalistasService>();
+builder.Services.AddScoped<AssetsService>();
+builder.Services.AddScoped<TipoAssetsService>();
+builder.Services.AddScoped<MaquinasService>();
+builder.Services.AddScoped<TipoIOCsService>();
 
 var app = builder.Build();
 

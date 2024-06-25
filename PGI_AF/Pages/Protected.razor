@@ -1,0 +1,35 @@
+﻿@using PGI_AF.Interfaces
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+
+@if (isLoading)
+{
+    <p>Loading...</p>
+}
+else if (!isAuthenticated)
+{
+    <RedirectToLogin />
+}
+else
+{
+    @ChildContent
+}
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private bool isAuthenticated = false;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isAuthenticated = await AuthService.IsUserAuthenticated();
+        isLoading = false;
+
+        if (!isAuthenticated)
+        {
+            Navigation.NavigateTo("/login", true);
+        }
+    }
+}

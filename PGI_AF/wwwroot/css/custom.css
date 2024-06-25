@@ -1,0 +1,18 @@
+﻿
+/* Estilo para diferenciar los nodos padres */
+.nav-item > .nav-link {
+    font-weight: bold;
+}
+
+/* Estilo para los nodos hijos */
+.list-group-item {
+    cursor: pointer;
+    padding-left: 20px;
+}
+
+    /* Cambio de cursor al pasar sobre los hijos */
+.list-group-item:hover {
+        cursor: pointer;
+        background-color: #f8f9fa;
+}
+

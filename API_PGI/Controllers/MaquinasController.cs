@@ -50,10 +50,10 @@ namespace API_PGI.Controllers
         }
 
         // GET: api/Tareas/Caso/5
-        [HttpGet("Assets")]
-        public async Task<IActionResult> GetMaquinasWithAssets()
+        [HttpGet("Assets/{idCaso}")]
+        public async Task<IActionResult> GetMaquinasWithAssets(int idCaso)
         {
-            var Tarea = await _maquinaRepository.GetMaquinasWithAssetsAsync();
+            var Tarea = await _maquinaRepository.GetMaquinasWithAssetsAsync(idCaso);
             return Ok(Tarea);
         }
 

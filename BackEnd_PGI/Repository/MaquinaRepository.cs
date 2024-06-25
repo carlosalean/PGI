@@ -28,9 +28,9 @@ namespace BackEnd_PGI.Repository
             return await _context.Maquinas.Where(t => t.CasoID == idCaso).ToListAsync();
         }
 
-        public async Task<List<Maquina>> GetMaquinasWithAssetsAsync()
+        public async Task<List<Maquina>> GetMaquinasWithAssetsAsync(int idCaso)
         {
-            return await _context.Maquinas
+            return await _context.Maquinas.Where(t => t.CasoID == idCaso)
                          .Include(m => m.Assets)
                              .ThenInclude(a => a.TipoAsset)
                          .ToListAsync();
