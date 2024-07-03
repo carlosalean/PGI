@@ -11,9 +11,9 @@ namespace BackEnd_PGI.Model
     public class Rol
     {
         public int ID { get; set; }
-        public string NombreRol { get; set; }
+        public string? NombreRol { get; set; }
 
         // Relación con Usuarios
-        public ICollection<Usuario> Usuarios { get; set; }
+        public ICollection<Usuario>? Usuarios { get; set; }
     }
 }

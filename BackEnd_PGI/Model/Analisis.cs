@@ -14,7 +14,7 @@ namespace BackEnd_PGI.Model
         public int ID { get; set; }
         public int CasoID { get; set; }
         public DateTime FechaAnalisis { get; set; }
-        public string Resultado { get; set; }
+        public string? Resultado { get; set; }
 
     }
 }

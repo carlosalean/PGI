@@ -16,7 +16,7 @@ builder.Services.AddScoped(sp =>
 {
     var httpClient = new HttpClient
     {
-        BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUri"])
+        BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUri"]!)
     };
     return httpClient;
 });

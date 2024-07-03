@@ -58,7 +58,7 @@ builder.Services.AddScoped<IMaquinaRepository, MaquinaRepository>();
 builder.Services.AddScoped<ITipoIOCRepository, TipoIOCRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -75,7 +75,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
 });
 

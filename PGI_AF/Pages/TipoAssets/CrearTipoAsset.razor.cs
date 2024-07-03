@@ -7,26 +7,26 @@ namespace PGI_AF.Pages.TipoAssets
     public partial class CrearTipoAssetComponent : ComponentBase
     {
         [Inject]
-        public TipoAssetsService TipoAssetsService { get; set; }
+        public TipoAssetsService? TipoAssetsService { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public NavigationManager? NavigationManager { get; set; }
 
         [Parameter]
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         public TipoAsset TipoAsset { get; set; } = new TipoAsset();
 
         protected async Task HandleValidSubmit()
         {
 
-            await TipoAssetsService.CreateTipoAssetAsync(TipoAsset);
-            NavigationManager.NavigateTo("/tipoAssets");
+            await TipoAssetsService?.CreateTipoAssetAsync(TipoAsset)!;
+            NavigationManager?.NavigateTo("/tipoAssets");
         }
 
         public void Cancel()
         {
-            NavigationManager.NavigateTo("/tipoAssets");
+            NavigationManager?.NavigateTo("/tipoAssets");
         }
     }
 }

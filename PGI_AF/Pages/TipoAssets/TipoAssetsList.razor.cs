@@ -8,10 +8,10 @@ namespace PGI_AF.Pages.TipoAssets
     public partial class TipoAssetsListComponent : ComponentBase
     {
         [Inject]
-        private TipoAssetsService TipoAssetsService { get; set; }
+        private TipoAssetsService? TipoAssetsService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; } // Inyección de NavigationManager
+        private NavigationManager? NavigationManager { get; set; } // Inyección de NavigationManager
 
         public List<TipoAsset>? tipoAsset = [];
 
@@ -20,21 +20,21 @@ namespace PGI_AF.Pages.TipoAssets
         protected async Task<GridDataProviderResult<TipoAsset>> TipoAssetDataProvider(
                                 GridDataProviderRequest<TipoAsset> request)
         {
-            return await Task.FromResult(request.ApplyTo(tipoAsset));
+            return await Task.FromResult(request.ApplyTo(tipoAsset!));
         }
         protected override async Task OnInitializedAsync()
         {
-            tipoAsset = await TipoAssetsService.GetTipoAssetAsync();
+            tipoAsset = await TipoAssetsService?.GetTipoAssetAsync()!;
             await (_tipoAssetGrid?.RefreshDataAsync() ?? Task.CompletedTask);
             if (!tipoAsset.Any())
             {
-                NavigationManager.NavigateTo("/tipoAssets/create");
+                NavigationManager?.NavigateTo("/tipoAssets/create");
             }
         }
 
         public async Task DeleteTipoAsset(int Id)
         {
-            await TipoAssetsService.DeleteTipoAssetAsync(Id);
+            await TipoAssetsService?.DeleteTipoAssetAsync(Id)!;
             tipoAsset = await TipoAssetsService.GetTipoAssetAsync(); // Refresh list
             StateHasChanged(); // Re-render the component
             await (_tipoAssetGrid?.RefreshDataAsync() ?? Task.CompletedTask);
@@ -43,12 +43,12 @@ namespace PGI_AF.Pages.TipoAssets
 
         public void CreateNewTipoAsset()
         {
-            NavigationManager.NavigateTo("/tipoAssets/create");
+            NavigationManager?.NavigateTo("/tipoAssets/create");
         }
 
         public void EditTipoAsset(int Id)
         {
-            NavigationManager.NavigateTo($"tipoAssets/edit/{Id}");
+            NavigationManager?.NavigateTo($"tipoAssets/edit/{Id}");
         }
 
 

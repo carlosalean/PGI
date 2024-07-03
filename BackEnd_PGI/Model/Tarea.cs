@@ -15,13 +15,13 @@ namespace BackEnd_PGI.Model
     public class Tarea
     {
         public int ID { get; set; }
-        public int CasoID { get; set; }
-        public string Descripcion { get; set; }
-        public TipoEstadoTarea Estado { get; set; }
-        public DateTime FechaInicio { get; set; }
-        public DateTime? FechaFin { get; set; } // Nullable para tareas sin finalizar
-        public DateTime DeadLine { get; set; }
-        public int AnalistaID { get; set; } // Owner ID
+        public int? CasoID { get; set; }
+        public string? Descripcion { get; set; }
+        public TipoEstadoTarea? Estado { get; set; }
+        public DateTime? FechaInicio { get; set; }
+        public DateTime ? FechaFin { get; set; } // Nullable para tareas sin finalizar
+        public DateTime? DeadLine { get; set; }
+        public int? AnalistaID { get; set; } // Owner ID
 
         //[JsonIgnore]
         //[BindNever]

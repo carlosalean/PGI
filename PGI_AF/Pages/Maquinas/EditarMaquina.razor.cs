@@ -7,10 +7,10 @@ namespace PGI_AF.Pages.Maquinas
     public partial class EditarMaquinaComponent : ComponentBase
     {
         [Inject]
-        private MaquinasService MaquinasService { get; set; }
+        private MaquinasService? MaquinasService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; } // Inyección de NavigationManager
+        private NavigationManager? NavigationManager { get; set; } // Inyección de NavigationManager
 
         [Parameter]
         public int? MaquinaId { get; set; }
@@ -22,11 +22,11 @@ namespace PGI_AF.Pages.Maquinas
         {
             if (MaquinaId.HasValue)
             {
-                Maquina = await MaquinasService.GetMaquinaAsync(MaquinaId.Value);
+                Maquina = await MaquinasService?.GetMaquinaAsync(MaquinaId.Value)!;
                 if (Maquina == null)
                 {
                     // Redireccionar si el caso no existe
-                    NavigationManager.NavigateTo("/casos");
+                    NavigationManager?.NavigateTo("/casos");
                 }
 
             }
@@ -41,15 +41,15 @@ namespace PGI_AF.Pages.Maquinas
         {
             if (Maquina.ID == 0)
             {
-                await MaquinasService.CreateMaquinaAsync(Maquina);
+                await MaquinasService?.CreateMaquinaAsync(Maquina)!;
             }
             else
             {
-                await MaquinasService.UpdateMaquinaAsync(Maquina.ID, Maquina);
+                await MaquinasService?.UpdateMaquinaAsync(Maquina.ID, Maquina)!;
             }
 
             // Redirigir después de guardar
-            NavigationManager.NavigateTo($"/maquinas/{Maquina.CasoID}");
+            NavigationManager?.NavigateTo($"/maquinas/{Maquina.CasoID}");
         }
     }
 

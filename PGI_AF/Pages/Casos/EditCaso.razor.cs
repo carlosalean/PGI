@@ -7,10 +7,10 @@ namespace PGI_AF.Pages.Casos
     public partial class EditCasoComponent : ComponentBase
     {
         [Inject]
-        private CasosService CasosService { get; set; }
+        private CasosService? CasosService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; } // Inyección de NavigationManager
+        private NavigationManager? NavigationManager { get; set; } // Inyección de NavigationManager
 
         [Parameter]
         public int? CasoId { get; set; }
@@ -21,11 +21,11 @@ namespace PGI_AF.Pages.Casos
         {
             if (CasoId.HasValue)
             {
-                Caso = await CasosService.GetCasoAsync(CasoId.Value);
+                Caso = await CasosService?.GetCasoAsync(CasoId.Value)!;
                 if (Caso == null)
                 {
                     // Redireccionar si el caso no existe
-                    NavigationManager.NavigateTo("/casos");
+                    NavigationManager?.NavigateTo("/casos");
                 }
             }
             else
@@ -39,15 +39,15 @@ namespace PGI_AF.Pages.Casos
         {
             if (Caso.ID == 0)
             {
-                await CasosService.CreateCasoAsync(Caso);
+                await CasosService?.CreateCasoAsync(Caso)!;
             }
             else
             {
-                await CasosService.UpdateCasoAsync(Caso.ID, Caso);
+                await CasosService?.UpdateCasoAsync(Caso.ID, Caso)!;
             }
 
             // Redirigir después de guardar
-            NavigationManager.NavigateTo("/casos");
+            NavigationManager?.NavigateTo("/casos");
         }
     }
 }

@@ -8,19 +8,19 @@ namespace PGI_AF.Pages.Assets
     public partial class CrearAssetComponent : ComponentBase
     {
         [Inject]
-        private AssetsService AssetsService { get; set; }
+        private AssetsService? AssetsService { get; set; }
 
         [Inject]
-        private CasosService CasosService { get; set; }
+        private CasosService? CasosService { get; set; }
 
         [Inject]
-        private MaquinasService MaquinasService { get; set; }
+        private MaquinasService? MaquinasService { get; set; }
 
         [Inject]
-        private TipoAssetsService TipoAssetsService { get; set; }
+        private TipoAssetsService? TipoAssetsService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; }
+        private NavigationManager? NavigationManager { get; set; }
 
         [Parameter]
         public int? CasoId { get; set; }
@@ -33,9 +33,9 @@ namespace PGI_AF.Pages.Assets
         public List<Maquina>? maquinas { get; set; }
         protected async Task HandleValidSubmit()
         {
-            Asset.CasoID = CasoId.Value;
-            await AssetsService.CreateAssetAsync(Asset);
-            NavigationManager.NavigateTo($"/assets/{CasoId.Value}");
+            Asset.CasoID = CasoId!.Value;
+            await AssetsService?.CreateAssetAsync(Asset)!;
+            NavigationManager?.NavigateTo($"/assets/{CasoId.Value}");
         }
 
 
@@ -43,19 +43,19 @@ namespace PGI_AF.Pages.Assets
         {
             if (CasoId.HasValue)
             {
-                caso = await CasosService.GetCasoAsync(CasoId.Value);
+                caso = await CasosService?.GetCasoAsync(CasoId.Value)!;
                 if (caso.Assets == null)
                 {
                     var item = new List<Asset>();
                     caso.Assets = item;
                 }
             }
-            tipoAsets = await TipoAssetsService.GetTipoAssetAsync() ?? new List<TipoAsset>();
+            tipoAsets = await TipoAssetsService?.GetTipoAssetAsync()! ?? [];
             if (tipoAsets.Count > 0)
             {
                 Asset.TipoAssetID = tipoAsets[0].ID;
             }
-            maquinas = await MaquinasService.GetMaquinasAsync() ?? new List<Maquina>();
+            maquinas = await MaquinasService?.GetMaquinasAsync()! ?? [];
             if (maquinas.Count > 0)
             {
                 Asset.MaquinaID = maquinas[0].ID;
@@ -64,7 +64,7 @@ namespace PGI_AF.Pages.Assets
         }
 
 
-        protected async Task HandleFileSelected(InputFileChangeEventArgs e)
+        protected void HandleFileSelected(InputFileChangeEventArgs e)
         {
             var file = e.File;
             if (file != null)
@@ -75,7 +75,7 @@ namespace PGI_AF.Pages.Assets
 
         public void Cancel()
         {
-            NavigationManager.NavigateTo($"/assets/{CasoId}");
+            NavigationManager?.NavigateTo($"/assets/{CasoId}");
         }
     }
 

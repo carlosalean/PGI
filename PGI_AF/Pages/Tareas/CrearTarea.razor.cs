@@ -7,16 +7,16 @@ namespace PGI_AF.Pages.Tareas
     public partial class CrearTareaComponent : ComponentBase
     {
         [Inject]
-        private TareasService TareasService { get; set; }
+        private TareasService? TareasService { get; set; }
 
         [Inject]
-        private CasosService CasosService { get; set; }
+        private CasosService? CasosService { get; set; }
 
         [Inject]
-        private AnalistasService AnalistasService { get; set; }
+        private AnalistasService? AnalistasService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; }
+        private NavigationManager? NavigationManager { get; set; }
 
         [Parameter]
         public int? CasoId { get; set; }
@@ -28,14 +28,14 @@ namespace PGI_AF.Pages.Tareas
 
         protected async Task HandleValidSubmit()
         {
-            Tarea.CasoID = CasoId.Value;
+            Tarea.CasoID = CasoId!.Value;
             if (Tarea.FechaInicio == default)
             {
                 Tarea.FechaInicio = DateTime.Today; // Establece la fecha de inicio por defecto si no se proporciona                
             }            
-            await TareasService.CreateTareaAsync(Tarea);
+            await TareasService?.CreateTareaAsync(Tarea)!;
 
-            NavigationManager.NavigateTo($"/tareas/{CasoId.Value}");
+            NavigationManager?.NavigateTo($"/tareas/{CasoId.Value}");
         }
 
 
@@ -43,14 +43,14 @@ namespace PGI_AF.Pages.Tareas
         {
             if (CasoId.HasValue)
             {
-                caso = await CasosService.GetCasoAsync(CasoId.Value);
+                caso = await CasosService?.GetCasoAsync(CasoId.Value)!;
                 if (caso.Tareas == null)
                 {
                     var item = new List<Tarea>();
                     caso.Tareas = item;
                 }
             }
-            analistas = await AnalistasService.GetAnalistaAsync() ?? new List<Analista>();
+            analistas = await AnalistasService?.GetAnalistaAsync()! ?? [];
             if (analistas.Count > 0)
             {
                 Tarea.AnalistaID = analistas[0].ID;
@@ -64,7 +64,7 @@ namespace PGI_AF.Pages.Tareas
 
         public void Cancel()
         {
-            NavigationManager.NavigateTo($"/tareas/{CasoId}");
+            NavigationManager?.NavigateTo($"/tareas/{CasoId}");
         }
     }
 }

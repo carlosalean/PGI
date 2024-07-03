@@ -7,13 +7,13 @@ namespace PGI_AF.Pages.Tareas
     public partial class EditTareaComponent : ComponentBase
     {
         [Inject]
-        private TareasService TareasService { get; set; }
+        private TareasService? TareasService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; } // Inyección de NavigationManager
+        private NavigationManager? NavigationManager { get; set; } // Inyección de NavigationManager
         
         [Inject]
-        private AnalistasService AnalistasService { get; set; }
+        private AnalistasService? AnalistasService { get; set; }
 
         [Parameter]
         public int? TareaId { get; set; }
@@ -26,14 +26,14 @@ namespace PGI_AF.Pages.Tareas
         {
             if (TareaId.HasValue)
             {
-                Tarea = await TareasService.GetTareAsync(TareaId.Value);
+                Tarea = await TareasService?.GetTareAsync(TareaId.Value)!;
                 if (Tarea == null)
                 {
                     // Redireccionar si el caso no existe
-                    NavigationManager.NavigateTo("/casos");
+                    NavigationManager?.NavigateTo("/casos");
                 }
 
-                analistas = await AnalistasService.GetAnalistaAsync() ?? new List<Analista>();
+                analistas = await AnalistasService?.GetAnalistaAsync()! ?? [];
             }
             else
             {
@@ -46,15 +46,15 @@ namespace PGI_AF.Pages.Tareas
         {
             if (Tarea.ID == 0)
             {
-                await TareasService.CreateTareaAsync(Tarea);
+                await TareasService?.CreateTareaAsync(Tarea)!;
             }
             else
             {
-                await TareasService.UpdateTareaAsync(Tarea.ID, Tarea);
+                await TareasService?.UpdateTareaAsync(Tarea.ID, Tarea)!;
             }
 
             // Redirigir después de guardar
-            NavigationManager.NavigateTo($"/tareas/{Tarea.CasoID}");
+            NavigationManager?.NavigateTo($"/tareas/{Tarea.CasoID}");
         }
     }
 }

@@ -31,7 +31,7 @@ namespace BackEnd_PGI.Repository
         public async Task<List<Maquina>> GetMaquinasWithAssetsAsync(int idCaso)
         {
             return await _context.Maquinas.Where(t => t.CasoID == idCaso)
-                         .Include(m => m.Assets)
+                         .Include(m => m.Assets)!
                              .ThenInclude(a => a.TipoAsset)
                          .ToListAsync();
         }

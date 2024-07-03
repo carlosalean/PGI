@@ -7,10 +7,10 @@ namespace PGI_AF.Pages.Analistas
     public partial class EditarAnalistaComponent : ComponentBase
     {
         [Inject]
-        private AnalistasService AnalistasService { get; set; }
+        private AnalistasService? AnalistasService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; } // Inyección de NavigationManager
+        private NavigationManager? NavigationManager { get; set; } // Inyección de NavigationManager
 
         [Parameter]
         public int? AnalistaId { get; set; }
@@ -21,11 +21,11 @@ namespace PGI_AF.Pages.Analistas
         {
             if (AnalistaId.HasValue)
             {
-                Analista = await AnalistasService.GetAnalistaAsync(AnalistaId.Value);
+                Analista = await AnalistasService?.GetAnalistaAsync(AnalistaId.Value)!;
                 if (Analista == null)
                 {
                     // Redireccionar si el caso no existe
-                    NavigationManager.NavigateTo("/analistas");
+                    NavigationManager?.NavigateTo("/analistas");
                 }
             }
             else
@@ -39,15 +39,15 @@ namespace PGI_AF.Pages.Analistas
         {
             if (Analista.ID == 0)
             {
-                await AnalistasService.CreateAnalistaAsync(Analista);
+                await AnalistasService?.CreateAnalistaAsync(Analista)!;
             }
             else
             {
-                await AnalistasService.UpdateAnalistaAsync(Analista.ID, Analista);
+                await AnalistasService?.UpdateAnalistaAsync(Analista.ID, Analista)!;
             }
 
             // Redirigir después de guardar
-            NavigationManager.NavigateTo("/analistas");
+            NavigationManager?.NavigateTo("/analistas");
         }
     }
 }

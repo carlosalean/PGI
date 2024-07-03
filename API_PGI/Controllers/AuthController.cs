@@ -33,12 +33,12 @@ namespace API_PGI.Controllers
 
             if (usuario != null)
             {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, usuario.NombreUsuario),
+                    new Claim(ClaimTypes.Name, usuario.NombreUsuario!),
                 };
 
                 var tokenOptions = new JwtSecurityToken(
@@ -119,13 +119,13 @@ namespace API_PGI.Controllers
 
     public class UserLogin
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string? Username { get; set; }
+        public string? Password { get; set; }
     }
 
     public class ChangePasswordModel
     {
-        public string CurrentPassword { get; set; }
-        public string NewPassword { get; set; }
+        public string? CurrentPassword { get; set; }
+        public string? NewPassword { get; set; }
     }
 }

@@ -65,7 +65,7 @@ namespace PGI_AF.Autentication
 
         private class TokenResult
         {
-            public string Token { get; set; }
+            public string? Token { get; set; }
         }
     }
 }

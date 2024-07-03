@@ -7,10 +7,10 @@ namespace PGI_AF.Pages.TipoAssets
     public partial class EditTipoAssetComponent : ComponentBase
     {
         [Inject]
-        private TipoAssetsService TipoAssetsService { get; set; }
+        private TipoAssetsService? TipoAssetsService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; } // Inyección de NavigationManager
+        private NavigationManager? NavigationManager { get; set; } // Inyección de NavigationManager
 
         [Parameter]
         public int? TipoAssetId { get; set; }
@@ -21,11 +21,11 @@ namespace PGI_AF.Pages.TipoAssets
         {
             if (TipoAssetId.HasValue)
             {
-                TipoAsset = await TipoAssetsService.GetTipoAssetAsync(TipoAssetId.Value);
+                TipoAsset = await TipoAssetsService?.GetTipoAssetAsync(TipoAssetId.Value)!;
                 if (TipoAsset == null)
                 {
                     // Redireccionar si el tipoAsset no existe
-                    NavigationManager.NavigateTo("/tipoAssets");
+                    NavigationManager?.NavigateTo("/tipoAssets");
                 }
             }
             else
@@ -39,15 +39,15 @@ namespace PGI_AF.Pages.TipoAssets
         {
             if (TipoAsset.ID == 0)
             {
-                await TipoAssetsService.CreateTipoAssetAsync(TipoAsset);
+                await TipoAssetsService?.CreateTipoAssetAsync(TipoAsset)!;
             }
             else
             {
-                await TipoAssetsService.UpdateTipoAssetAsync(TipoAsset.ID, TipoAsset);
+                await TipoAssetsService?.UpdateTipoAssetAsync(TipoAsset.ID, TipoAsset)!;
             }
 
             // Redirigir después de guardar
-            NavigationManager.NavigateTo("/tipoAssets");
+            NavigationManager?.NavigateTo("/tipoAssets");
         }
     }
 

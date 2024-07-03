@@ -45,7 +45,7 @@ namespace PGI_AF.Pages.Analisis
                     _caso = value;
                     if (_caso != null)
                     {
-                        LoadMaquinasCaso(_caso);
+                        _ = LoadMaquinasCaso(_caso);
                     }
                 }
             }
@@ -119,7 +119,7 @@ namespace PGI_AF.Pages.Analisis
                     ID = a.ID,
                     Text = a.Nombre,
                     Tipo = "Asset",
-                    Icon = (IconName)Enum.Parse(typeof(IconName), a.TipoAsset.Icono),
+                    Icon = (IconName)Enum.Parse(typeof(IconName), a.TipoAsset?.Icono!),
                 }).ToList()!
             }).ToList();
         }
@@ -133,7 +133,7 @@ namespace PGI_AF.Pages.Analisis
                 {
                     if (child.TipoIOC != null)
                     {
-                        tipoIOCTabs?.UpdateTabContent(child.TipoIocId, child.Valor);
+                        tipoIOCTabs?.UpdateTabContent(child.TipoIocId, child?.Valor!);
                     }
                 }
             }

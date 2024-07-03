@@ -8,15 +8,15 @@ namespace PGI_AF.Pages.Assets
     public partial class EditAssetsComponent : ComponentBase
     {
         [Inject]
-        private AssetsService AssetsService { get; set; }
+        private AssetsService? AssetsService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; }
+        private NavigationManager? NavigationManager { get; set; }
 
         [Inject]
-        private TipoAssetsService TipoAssetsService { get; set; }
+        private TipoAssetsService? TipoAssetsService { get; set; }
         [Inject]
-        private MaquinasService MaquinasService { get; set; }
+        private MaquinasService? MaquinasService { get; set; }
 
         [Parameter]
         public int? AssetId { get; set; }
@@ -30,15 +30,15 @@ namespace PGI_AF.Pages.Assets
         {
             if (AssetId.HasValue)
             {
-                Asset = await AssetsService.GetTareAsync(AssetId.Value);
+                Asset = await AssetsService?.GetTareAsync(AssetId.Value)!;
                 if (Asset == null)
                 {
                     // Redireccionar si el caso no existe
-                    NavigationManager.NavigateTo("/casos");
+                    NavigationManager?.NavigateTo("/casos");
                 }
 
-                tipoAsets = await TipoAssetsService.GetTipoAssetAsync() ?? new List<TipoAsset>();
-                maquinas = await MaquinasService.GetMaquinasAsync() ?? new List<Maquina>();
+                tipoAsets = await TipoAssetsService?.GetTipoAssetAsync()! ?? [];
+                maquinas = await MaquinasService?.GetMaquinasAsync()! ?? [];
             }
             else
             {
@@ -51,18 +51,18 @@ namespace PGI_AF.Pages.Assets
         {
             if (Asset.ID == 0)
             {
-                await AssetsService.CreateAssetAsync(Asset);
+                await AssetsService?.CreateAssetAsync(Asset)!;
             }
             else
             {
-                await AssetsService.UpdateAssetAsync(Asset.ID, Asset);
+                await AssetsService?.UpdateAssetAsync(Asset.ID, Asset)!;
             }
 
             // Redirigir después de guardar
-            NavigationManager.NavigateTo($"/assets/{Asset.CasoID}");
+            NavigationManager?.NavigateTo($"/assets/{Asset.CasoID}");
         }
 
-        protected async Task HandleFileSelected(InputFileChangeEventArgs e)
+        protected void HandleFileSelected(InputFileChangeEventArgs e)
         {
             var file = e.File;
             if (file != null)

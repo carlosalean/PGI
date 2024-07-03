@@ -7,13 +7,13 @@ namespace PGI_AF.Pages.Maquinas
     public partial class CrearMaquinaComponent : ComponentBase
     {
         [Inject]
-        private MaquinasService MaquinasService { get; set; }
+        private MaquinasService? MaquinasService { get; set; }
 
         [Inject]
-        private CasosService CasosService { get; set; }
+        private CasosService? CasosService { get; set; }
 
         [Inject]
-        private NavigationManager NavigationManager { get; set; }
+        private NavigationManager? NavigationManager { get; set; }
 
         [Parameter]
         public int? CasoId { get; set; }
@@ -24,10 +24,10 @@ namespace PGI_AF.Pages.Maquinas
 
         protected async Task HandleValidSubmit()
         {
-            Maquina.CasoID = CasoId.Value;
-            await MaquinasService.CreateMaquinaAsync(Maquina);
+            Maquina.CasoID = CasoId!.Value;
+            await MaquinasService?.CreateMaquinaAsync(Maquina)!;
 
-            NavigationManager.NavigateTo($"/maquinas/{CasoId.Value}");
+            NavigationManager?.NavigateTo($"/maquinas/{CasoId.Value}");
         }
 
 
@@ -35,7 +35,7 @@ namespace PGI_AF.Pages.Maquinas
         {
             if (CasoId.HasValue)
             {
-                caso = await CasosService.GetCasoAsync(CasoId.Value);
+                caso = await CasosService?.GetCasoAsync(CasoId.Value)!;
                 if (caso.Maquinas == null)
                 {
                     var item = new List<Maquina>();
@@ -48,7 +48,7 @@ namespace PGI_AF.Pages.Maquinas
 
         public void Cancel()
         {
-            NavigationManager.NavigateTo($"/maquinas/{CasoId}");
+            NavigationManager?.NavigateTo($"/maquinas/{CasoId}");
         }
     }
 

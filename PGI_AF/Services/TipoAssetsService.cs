@@ -29,7 +29,7 @@ namespace PGI_AF.Services
             return await response.Content.ReadFromJsonAsync<TipoAsset>();
         }
 
-        public async Task UpdateTipoAssetAsync(int id, TipoAsset tipoAsset)
+        public async Task UpdateTipoAssetAsync(int? id, TipoAsset tipoAsset)
         {
             var response = await _httpClient.PutAsJsonAsync($"api/TipoAssets/{id}", tipoAsset);
             response.EnsureSuccessStatusCode();

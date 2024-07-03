@@ -26,7 +26,7 @@ namespace BackEnd_PGI.Repository
         public async Task<Asset> GetAssetWithIOCsAsync(int Id)
         {
             return await _context.Assets
-                         .Include(m => m.IOCs)
+                         .Include(m => m.IOCs)!
                              .ThenInclude(a => a.TipoIOC)
                          .FirstOrDefaultAsync(a => a.ID == Id);
         }
