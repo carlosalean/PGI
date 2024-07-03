@@ -1,4 +1,4 @@
-@API_PGI_HostAddress = http://localhost:5000
+@API_PGI_HostAddress = http://localhost:7153
 
 GET {{API_PGI_HostAddress}}/weatherforecast/
 Accept: application/json

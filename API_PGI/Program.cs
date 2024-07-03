@@ -80,6 +80,14 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(7153); // Listen on port 7153 for HTTP
+    serverOptions.ListenAnyIP(7152, listenOptions =>
+    {
+        listenOptions.UseHttps(); // Enable HTTPS on port 7152
+    });
+});
 
 var app = builder.Build();
 
@@ -95,5 +103,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();
