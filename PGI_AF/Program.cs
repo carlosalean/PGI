@@ -32,6 +32,7 @@ builder.Services.AddScoped<AssetsService>();
 builder.Services.AddScoped<TipoAssetsService>();
 builder.Services.AddScoped<MaquinasService>();
 builder.Services.AddScoped<TipoIOCsService>();
+builder.Services.AddScoped<AnalisisService>();
 
 var app = builder.Build();
 

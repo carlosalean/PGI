@@ -14,5 +14,6 @@ namespace BackEnd_PGI.Interface
         Task<TipoIOC> CreateAsync(TipoIOC tipoIoc);
         Task UpdateAsync(TipoIOC tipoIoc);
         Task DeleteAsync(int id);
+        Task<TipoIOC?> GetByKeywordAsync(string keyword);
     }
 }

@@ -104,13 +104,13 @@ namespace BackEnd_PGI
                 .Property(Tarea => Tarea.Estado)
                 .HasConversion(
                     v => v.ToString(), // De Enum a string
-                    v => (TipoEstadoTarea)Enum.Parse(typeof(TipoEstadoTarea), v)); // De string a Enum
+                    v => (TipoEstadoTarea)Enum.Parse(typeof(TipoEstadoTarea), v!)); // De string a Enum
 
             modelBuilder.Entity<TipoIOC>()
                 .Property(TipoIOC => TipoIOC.BuscarEn)
                 .HasConversion(
                     v => v.ToString(), // De Enum a string
-                    v => (BuscarEn)Enum.Parse(typeof(BuscarEn), v)); // De string a Enum
+                    v => (BuscarEn)Enum.Parse(typeof(BuscarEn), v!)); // De string a Enum
 
         }
 

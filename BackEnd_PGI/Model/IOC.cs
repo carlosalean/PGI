@@ -8,6 +8,7 @@ namespace BackEnd_PGI.Model
     {
         public int ID { get; set; }
         public int TipoIocId { get; set; }
+        public int AssetID { get; set; }
         public string? Valor { get; set; }
         public string? Descripcion { get; set; }
 

@@ -1,6 +1,9 @@
 using BackEnd_PGI;
 using BackEnd_PGI.Interface;
+using BackEnd_PGI.Model;
 using BackEnd_PGI.Repository;
+using BackEnd_PGI.Service;
+using IntegrationsCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -56,7 +59,22 @@ builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<ITipoAssetRepository, TipoAssetsRepository>();
 builder.Services.AddScoped<IMaquinaRepository, MaquinaRepository>();
 builder.Services.AddScoped<ITipoIOCRepository, TipoIOCRepository>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IMockAnalysisService, MockAnalysisService>();
+
+builder.Services.Configure<ThreatDetectionRules>(builder.Configuration.GetSection("ThreatDetectionRules"));
+// Configurar opciones de API
+builder.Services.Configure<OpenAIOptions>(builder.Configuration.GetSection("OpenAI"));
+builder.Services.Configure<VirusTotalOptions>(builder.Configuration.GetSection("VirusTotal"));
+builder.Services.Configure<AlienVaultOptions>(builder.Configuration.GetSection("AlienVault"));
+
+// Registrar servicios individuales
+builder.Services.AddScoped<OpenAIService>();
+builder.Services.AddScoped<VirusTotalService>();
+builder.Services.AddScoped<AlienVaultService>();
+builder.Services.AddScoped<IThreatDetectionService, ThreatDetectionService>();
+
+// Registrar la fábrica de servicios de IOC
+builder.Services.AddScoped<IOCServiceFactory>();
 
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
 

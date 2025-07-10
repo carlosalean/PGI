@@ -28,7 +28,7 @@ namespace BackEnd_PGI.Repository
             return await _context.Assets
                          .Include(m => m.IOCs)!
                              .ThenInclude(a => a.TipoIOC)
-                         .FirstOrDefaultAsync(a => a.ID == Id);
+                         .FirstOrDefaultAsync(a => a.MaquinaID == Id);
         }
 
         public async Task<IEnumerable<Asset>> GetByIdCasoAsync(int idCaso)

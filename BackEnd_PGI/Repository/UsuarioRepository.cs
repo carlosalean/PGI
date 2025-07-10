@@ -31,8 +31,8 @@ namespace BackEnd_PGI.Repository
 
         public async Task<Usuario> CreateAsync(Usuario usuario)
         {
-            usuario.Password = HashPassword(usuario.Password);
-            _context.Usuarios.Add(usuario);
+            usuario.Password = HashPassword(usuario?.Password!);
+            _context.Usuarios.Add(usuario!);
             await _context.SaveChangesAsync();
             return usuario;
         }
@@ -62,7 +62,7 @@ namespace BackEnd_PGI.Repository
         {
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.NombreUsuario == username);
 
-            if (usuario != null && VerifyPassword(password, usuario.Password))
+            if (usuario != null && VerifyPassword(password, usuario?.Password!))
             {
                 return usuario;
             }
@@ -78,12 +78,12 @@ namespace BackEnd_PGI.Repository
                 return false;
             }
 
-            if (!VerifyPassword(currentPassword, usuario.Password))
+            if (!VerifyPassword(currentPassword, usuario?.Password!))
             {
                 return false;
             }
 
-            usuario.Password = HashPassword(newPassword);
+            usuario!.Password = HashPassword(newPassword);
             await _context.SaveChangesAsync();
 
             return true;

@@ -2,56 +2,76 @@
 @inherits AssetsListComponent
 
 <div class="content-data mt-4">
-    <h3>Lista de Assets..</h3>
-    @if (assets == null || !assets.Any())
-    {
-        <PlaceholderContainer Animation="PlaceholderAnimation.Glow">
-            <Placeholder Width="PlaceholderWidth.Col12" />
-            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.Large" />
-            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.Small" />
-            <Placeholder Width="PlaceholderWidth.Col12" Size="PlaceholderSize.ExtraSmall" />
-        </PlaceholderContainer>
-    }
-    else
-    {
-        <div class="add-margin">
-            <h3> Caso: @CasoId </h3>
-            <Grid @ref="_assetsGrid"
-                  TItem="Asset"
-                  class="table table-hover table-bordered table-striped"
-                  DataProvider="AssetDataProvider"
-                  AllowFiltering="false"
-                  Responsive="true"
-                  ItemsPerPageText=""
-                  PageSizeSelectorVisible="true"
-                  PageSize="20"
-                  PageSizeSelectorItems="null"
-                  PaginationItemsTextFormat="">
-                <GridColumn TItem="Asset" HeaderText="Id" PropertyName="ID">
-                    @context.ID
-                </GridColumn>
-                <GridColumn TItem="Asset" HeaderText="Descripcion" PropertyName="Descripcion">
-                    @context.Descripcion
-                </GridColumn>
-                <GridColumn TItem="Asset" HeaderText="Tipo Asset" PropertyName="TipoAssetID">
-                    @context.TipoAssetID
-                </GridColumn>
-                <GridColumn TItem="Asset" HeaderText="Ubicacion" PropertyName="Ubicacion">
-                    @context.Ubicacion
-                </GridColumn>
-                <GridColumn TItem="Asset" HeaderText="Maquina" PropertyName="MaquinaID">
-                    @{
-                        var maquina = maquinas?.FirstOrDefault(a => a.ID == context.MaquinaID);
-                    }
-                    <text>@(maquina?.Nombre ?? "No Asignado")</text>
-                </GridColumn>
+    <h3>Lista de Assets</h3>
+    <div class="add-margin">
+        <h3>Caso: @CasoId</h3>
 
-                <GridColumn TItem="Asset" HeaderText="Acciones">
-                    <button class="btn btn-primary btn-sm" @onclick="() => EditAssets(context.ID)"><Icon Name="IconName.Pencil" /></button>               
-                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteAsset(context.ID)"><Icon Name="IconName.Trash" /></button>
-                </GridColumn>
-            </Grid>
-        </div>
-        <button @onclick="CreateNewAsset" class="btn btn-success">Crear Nueva Asset</button>
-    }
+        <!-- Botón para abrir el modal de importación -->
+        <button @onclick="ShowImportModal" class="btn btn-primary mt-2">Importar Assets</button>
+
+        <Grid @ref="_assetsGrid"
+              TItem="Asset"
+              class="table table-hover table-bordered table-striped"
+              DataProvider="AssetDataProvider"
+              AllowFiltering="false"
+              Responsive="true"
+              ItemsPerPageText=""
+              PageSizeSelectorVisible="true"
+              PageSize="20"
+              PageSizeSelectorItems="null"
+              PaginationItemsTextFormat=""
+              EmptyText="No hay registros para mostrar">
+            <GridColumn TItem="Asset" HeaderText="Id" PropertyName="ID">
+                @context.ID
+            </GridColumn>
+            <GridColumn TItem="Asset" HeaderText="Descripcion" PropertyName="Descripcion">
+                @context.Descripcion
+            </GridColumn>
+            <GridColumn TItem="Asset" HeaderText="Tipo Asset" PropertyName="TipoAssetID">
+                @context.TipoAssetID
+            </GridColumn>
+            <GridColumn TItem="Asset" HeaderText="Ubicacion" PropertyName="Ubicacion">
+                @context.Ubicacion
+            </GridColumn>
+            <GridColumn TItem="Asset" HeaderText="Maquina" PropertyName="MaquinaID">
+                @{
+                    var maquina = maquinas?.FirstOrDefault(a => a.ID == context.MaquinaID);
+                }
+                <text>@(maquina?.Nombre ?? "No Asignado")</text>
+            </GridColumn>
+
+            <GridColumn TItem="Asset" HeaderText="Acciones">
+                <button class="btn btn-primary btn-sm" @onclick="() => EditAssets(context.ID)">
+                    <Icon Name="IconName.Pencil" />
+                </button>
+                <button class="btn btn-danger btn-sm" @onclick="() => DeleteAsset(context.ID)">
+                    <Icon Name="IconName.Trash" />
+                </button>
+            </GridColumn>
+        </Grid>
+    </div>
+    <button @onclick="CreateNewAsset" class="btn btn-success">Crear Nueva Asset</button>
 </div>
+
+<!-- Modal para la importación de assets -->
+@if (isImportModalVisible)
+{
+    <div class="modal fade show" tabindex="-1" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Importar Assets</h5>
+                    <button type="button" class="btn-close" @onclick="HideImportModal"></button>
+                </div>
+                <div class="modal-body">
+                    <InputFile OnChange="OnFileChange" class="form-control" />
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="HideImportModal">Cancelar</button>
+                    <button class="btn btn-primary" @onclick="ImportAssets">Importar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

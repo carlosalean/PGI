@@ -12,9 +12,9 @@
                  OnClick="(args) => OnTabClick(args, tipoIOC.ID)">
                 <TitleTemplate>
                     @{
-                        var iconName = GetIconName(tipoIOC.Icono);
+                        var iconName = GetIconName(tipoIOC.Icono!);
                     }
-                    <Icon Name="iconName" /> @tipoIOC.Nombre
+                    <Icon Name="iconName" /> @tipoIOC.Nombre!
                 </TitleTemplate>
                 <Content>
                     <p class="mt-3">@tabContents[tipoIOC.ID]</p>

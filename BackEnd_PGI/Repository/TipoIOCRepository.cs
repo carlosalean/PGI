@@ -50,6 +50,11 @@ namespace BackEnd_PGI.Repository
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task<TipoIOC?> GetByKeywordAsync(string keyword)
+        {
+            return await _context.TipoIOCs
+                .FirstOrDefaultAsync(t => t.Nombre.Contains(keyword) || t.Descripcion.Contains(keyword));
+        }
     }
 
 }

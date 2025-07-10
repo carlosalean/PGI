@@ -20,6 +20,9 @@ namespace PGI_AF.Pages.Analisis
         [Inject]
         private AssetsService? AssetsService { get; set; }
 
+        [Inject]
+        private AnalisisService? AnalisisService { get; set; } 
+
 
         protected TipoIOCTabs? tipoIOCTabs;
         protected List<TipoIOC>? tipoIOCs;
@@ -123,7 +126,20 @@ namespace PGI_AF.Pages.Analisis
                 }).ToList()!
             }).ToList();
         }
-       
+
+        protected async Task RunAnalysis()
+        {
+            if (SelectedCasoId > 0)
+            {
+                var iocs = await AnalisisService!.AnalyzeCaseAsync(SelectedCasoId);
+
+                foreach (var ioc in iocs)
+                {
+                    tipoIOCTabs?.UpdateTabContent(ioc.TipoIocId, ioc.Valor + " - " + ioc.Descripcion);
+                }
+            }
+        }
+
         protected async Task HandleNodeClick(TreeNode node)
         {
             if (node != null && node.Tipo != "Asset") {
@@ -133,7 +149,7 @@ namespace PGI_AF.Pages.Analisis
                 {
                     if (child.TipoIOC != null)
                     {
-                        tipoIOCTabs?.UpdateTabContent(child.TipoIocId, child?.Valor!);
+                        tipoIOCTabs?.UpdateTabContent(child.TipoIocId, child?.Valor! + " - " + child.Descripcion);
                     }
                 }
             }
